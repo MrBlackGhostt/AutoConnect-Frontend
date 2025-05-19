@@ -1,9 +1,10 @@
+"use client";
 import { motion } from "framer-motion";
 import { LineChart, MapPin, Calendar } from "lucide-react";
 import { TabsContent, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 
-export function FeaturesSection() {
+export default function FeaturesSection() {
   return (
     <section id="features" className="py-24 bg-white">
       <div className="container">
@@ -14,7 +15,7 @@ export function FeaturesSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Explore Auto Connect's Features
+            Explore Auto Connect`s Features
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Our platform is designed to provide a seamless experience for EV
