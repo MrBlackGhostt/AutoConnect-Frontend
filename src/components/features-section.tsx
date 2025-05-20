@@ -3,8 +3,13 @@ import { motion } from "framer-motion";
 import { LineChart, MapPin, Calendar } from "lucide-react";
 import { TabsContent, Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function FeaturesSection() {
+ const src1 = "https://images.pexels.com/photos/3059654/pexels-photo-3059654.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2”
+const src2 = "https://images.pexels.com/photos/5835359/pexels-photo-5835359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+
+const src3 = "https://images.pexels.com/photos/4481326/pexels-photo-4481326.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
   return (
     <section id="features" className="py-24 bg-white">
       <div className="container">
@@ -96,11 +101,16 @@ export default function FeaturesSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
                   className="md:w-1/2 order-1 md:order-2">
-                  <img
-                    src="https://images.pexels.com/photos/3059654/pexels-photo-3059654.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                  <div className="relative w-full h-full">
+
+                  <Image
+                  loader={() => src1}
+                    src={src1}
                     alt="EV data dashboard"
+                    fill
                     className="rounded-xl shadow-lg w-full"
                   />
+                  </div>
                 </motion.div>
               </div>
             </TabsContent>

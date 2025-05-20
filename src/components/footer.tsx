@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 export default function Footer() {
   return (
     <footer className="bg-neutral-100 pt-16 pb-8">
-      <div className="container">
+      <div className="md:container">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
