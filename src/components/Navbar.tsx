@@ -36,7 +36,7 @@ export function Header() {
 
   return (
     <>
-      <div className="sticky top-0 right-0 z-50">
+      <div className="sticky top-0 right-0 z-50 md:hidden">
         <MobileNavbar />
       </div>
 
@@ -44,25 +44,28 @@ export function Header() {
         className={cn(
           " sticky top-0 z-50 md:transition-all md:duration-300 ",
           scrolled
-            ? " md:flex bg-white/95 backdrop-blur-sm shadow-sm"
+            ? " bg-white/95 backdrop-blur-sm shadow-sm"
             : "bg-transparent"
         )}>
         <div className="hidden md:block">
-          <div className=" flex h-16   px-4 items-center justify-between">
+          <div className=" flex h-16 px-4 items-center justify-between">
             <div className=" flex items-center justify-center w-40 h-full">
               <div className="relative w-full h-full cursor-pointer">
                 <Image loader={() => logoUrl} src={logoUrl} alt="logo" fill />
               </div>
             </div>
 
-            <NavigationMenu className="hidden md:flex">
+            <NavigationMenu>
               <NavigationMenuList>
                 {navLinks.map((link, index) => {
                   return (
                     <NavigationMenuItem key={index}>
                       <NavigationMenuLink
                         href={link.href}
-                        className={navigationMenuTriggerStyle()}>
+                        className={cn(
+                          navigationMenuTriggerStyle(),
+                          "hover:bg-[#EFC727]/50"
+                        )}>
                         {link.name}
                       </NavigationMenuLink>
                     </NavigationMenuItem>
@@ -81,7 +84,7 @@ export function Header() {
             </div>
           </div>
           <Separator
-            className={scrolled ? "hidden md:flex opacity-100 " : "opacity-0"}
+            className={scrolled ? "md:opacity-100 " : "md:opacity-0"}
           />
         </div>
       </header>

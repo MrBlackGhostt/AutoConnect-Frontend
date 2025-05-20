@@ -79,7 +79,7 @@ export default function TrustSection() {
             transition={{ duration: 0.6 }}
             className="md:w-1/2">
             <div className="relative rounded-xl overflow-hidden shadow-xl bg-white p-1">
-              <div className="container relative rounded-lg w-full h-[720]">
+              <div className=" relative rounded-lg w-full h-0 pb-[80%] md:pb-[75%]">
                 <Image
                   loader={() => src}
                   src={src}
