@@ -4,6 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 
+import { useEffect, useState } from "react";
+
 const testimonials = [
   {
     id: 1,
@@ -52,6 +54,14 @@ export default function TestimonialCard({
   rating: number;
   delay: number;
 }) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
+
   return (
     <motion.div
       initial={{ y: 50, opacity: 0 }}
@@ -122,7 +132,7 @@ export function TestimonialsSection() {
           ))}
         </div>
 
-        <motion.div
+        {/* <motion.div
           initial={{ y: 20, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
@@ -133,7 +143,7 @@ export function TestimonialsSection() {
               Ready to join them? Get started today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <input
+              <Input
                 type="email"
                 placeholder="Enter your email"
                 className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#F0C412] w-full sm:w-64"
@@ -143,7 +153,7 @@ export function TestimonialsSection() {
               </button>
             </div>
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );

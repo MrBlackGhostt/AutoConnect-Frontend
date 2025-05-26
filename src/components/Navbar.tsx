@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { MobileNavbar } from "./mobile-navbar";
+import { AuthDialog } from "./AuthDialog";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -75,12 +76,17 @@ export function Header() {
             </NavigationMenu>
 
             <div className="flex items-center gap-4">
-              <Button variant="ghost">Login</Button>
-              <Button
-                className="bg-[#F0C412] hover:bg-[#EFC727] text-black font-medium"
-                size="sm">
-                Sign Up
-              </Button>
+              <AuthDialog mode="login" />
+              <AuthDialog
+                mode="signup"
+                trigger={
+                  <Button
+                    className="bg-[#F0C412] hover:bg-[#EFC727] text-black font-medium"
+                    size="sm">
+                    Sign Up
+                  </Button>
+                }
+              />
             </div>
           </div>
           <Separator

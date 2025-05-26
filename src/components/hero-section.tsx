@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { AuthDialog } from "./AuthDialog";
 
 const slides = [
   {
@@ -170,12 +171,28 @@ export default function HeroSection() {
               <p className="max-w-2xl text-lg text-white md:text-xl">
                 {slide.subtitle}
               </p>
-              <Button
-                size="lg"
-                onClick={handleButtonClick}
-                className="mt-4 bg-[#F0C412] text-gray-900 hover:bg-[#EFC727] transition-transform hover:scale-105 cursor-pointer">
-                {slide.cta}
-              </Button>
+              {slide.cta == "Get Started Now" ? (
+                <AuthDialog
+                  mode="signup"
+                  trigger={
+                    <Button
+                      size="lg"
+                      className="mt-4 bg-[#F0C412] text-gray-900 hover:bg-[#EFC727] transition-transform hover:scale-105 "
+                      // onClick={handleSignUp}
+                    >
+                      Get Started Now
+                      <ArrowRight className="ml-2 h-6 w-6" />
+                    </Button>
+                  }
+                />
+              ) : (
+                <Button
+                  size="lg"
+                  onClick={handleButtonClick}
+                  className="mt-4 bg-[#F0C412] text-gray-900 hover:bg-[#EFC727] transition-transform hover:scale-105 cursor-pointer">
+                  {slide.cta}
+                </Button>
+              )}
             </div>
           </div>
         ))}
