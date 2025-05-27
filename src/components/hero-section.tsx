@@ -5,6 +5,7 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AuthDialog } from "./AuthDialog";
+import Image from "next/image";
 
 const slides = [
   {
@@ -54,14 +55,12 @@ export default function HeroSection() {
 
   // Reset video playing state when changing slides
   useEffect(() => {
-    // Reset video playing state when navigating away from video slide
     if (!slides[currentSlide].isVideo) {
       setVideoPlaying(false);
     }
   }, [currentSlide]);
 
   useEffect(() => {
-    // Only auto-rotate when NOT on video slide or when video is not playing
     if (!slides[currentSlide].isVideo || !videoPlaying) {
       const interval = setInterval(() => {
         nextSlide();
@@ -69,7 +68,6 @@ export default function HeroSection() {
 
       return () => clearInterval(interval);
     }
-    // FIXED: Added currentSlide and videoPlaying as dependencies
   }, [currentSlide, videoPlaying]);
 
   const nextSlide = () => {
@@ -84,14 +82,10 @@ export default function HeroSection() {
     setVideoPlaying(true); // Start video when user clicks the play button
   };
 
-  // Handle button click based on current slide
   const handleButtonClick = () => {
-    // If current slide is video slide, play the video
     if (slides[currentSlide].isVideo) {
       handlePlayVideo();
     }
-    // For other slides, you can add navigation or other actions
-    // e.g., redirect to specific pages based on button text
   };
 
   return (
@@ -127,20 +121,15 @@ export default function HeroSection() {
                 ? "opacity-100"
                 : "opacity-0 pointer-events-none"
             )}>
-            <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{
-                backgroundImage: `url(${slide.image})`,
-              }}>
-              <div className="absolute inset-0 bg-black/40" />
-            </div>
             <div className="absolute inset-0 z-0">
               {slide.isVideo && videoPlaying ? (
-                // Video iframe - only show when video is playing
                 <div className="h-full w-full bg-gray-100">
                   <div className="h-full w-full z-50">
                     <iframe
-                      src={`https://www.youtube.com/embed/Jf_wKkV5dwQ?si=iIGc0wsfBEztiIgG&autoplay=1&mute=0&enablejsapi=1&controls=1&rel=0`}
+                      src={
+                        slide.videoId +
+                        "?autoplay=1&mute=0&enablejsapi=1&controls=1&rel=0"
+                      }
                       title="YouTube video player"
                       className="w-full h-full"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -149,10 +138,16 @@ export default function HeroSection() {
                   </div>
                 </div>
               ) : (
-                // Background image for all slides (and video slide before playing)
-                <div
-                  className="h-full w-full bg-cover bg-center"
-                  style={{ backgroundImage: `url(${slide.image})` }}>
+                <div className="h-full w-full">
+                  <Image
+                    loader={() => slide.image}
+                    src={slide.image}
+                    alt={slide.altText || "hero-image"}
+                    objectFit="cover"
+                    fill
+                    className="z-0"
+                    priority
+                  />
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-yellow-500/80" />
                 </div>
               )}
@@ -165,21 +160,19 @@ export default function HeroSection() {
                   ? "opacity-0 pointer-events-none"
                   : "opacity-100"
               )}>
-              <h1 className="text-4xl font-bold tracking-tight text-[#EFC727] md:text-5xl lg:text-6xl/none">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-[#EFC727]">
                 {slide.title}
               </h1>
-              <p className="max-w-2xl text-lg text-white md:text-xl">
+              <p className="max-w-2xl text-sm sm:text-base md:text-lg text-white">
                 {slide.subtitle}
               </p>
-              {slide.cta == "Get Started Now" ? (
+              {slide.cta === "Get Started Now" ? (
                 <AuthDialog
                   mode="signup"
                   trigger={
                     <Button
                       size="lg"
-                      className="mt-4 bg-[#F0C412] text-gray-900 hover:bg-[#EFC727] transition-transform hover:scale-105 "
-                      // onClick={handleSignUp}
-                    >
+                      className="mt-4 bg-[#F0C412] text-gray-900 hover:bg-[#EFC727] transition-transform hover:scale-105 ">
                       Get Started Now
                       <ArrowRight className="ml-2 h-6 w-6" />
                     </Button>

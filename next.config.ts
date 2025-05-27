@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       // new URL("https://www.pexels.com/"),
-      new URL("https://images.pexels.com/photos/**"),
+      new URL("https://images.pexels.com/**"),
     ],
   },
 };
