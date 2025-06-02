@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import {
@@ -26,14 +25,12 @@ export function AuthDialog({
   className,
 }: AuthDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [ownerId, setOwnerId] = useState(null);
   // Initialize react-hook-form
   const {
     control,
     handleSubmit,
     formState: { errors },
-    // setValue,
-    // reset,
   } = useForm<FromProps>({
     defaultValues: {
       firstName: "",
@@ -44,18 +41,46 @@ export function AuthDialog({
     },
   });
 
-  const handleFormSubmit: SubmitHandler<FromProps> = (data) => {
-    const { email } = data;
-    toast.success(
-      mode === "login" ? "Welcome back!" : "Welcome to Auto Connect!",
-      {
-        description: `We've sent a confirmation to ${email}`,
-        className:
-          "text-sm bg-green-500 text-green font-semibold p-3 rounded-md", // Improved contrast with white text on green background
-        duration: 3000, // You can increase the duration for better visibility
+  const handleFormSubmit: SubmitHandler<FromProps> = async (data) => {
+    try {
+      const response = await fetch("/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...data,
+        }),
+      });
+
+      const result = await response.json();
+      console.log(
+        "🚀 ---------------------------------------------------------------------🚀"
+      );
+      console.log(
+        "🚀 ~ consthandleFormSubmit:SubmitHandler<FromProps>= ~ result:",
+        result
+      );
+      console.log(
+        "🚀 ---------------------------------------------------------------------🚀"
+      );
+
+      if (response.ok) {
+        setOwnerId(result.data);
+        toast.success("Account created successfully!", {
+          description: `We've sent a confirmation to ${data.email}`,
+          className:
+            "text-sm bg-green-500 text-green font-semibold p-3 rounded-md",
+          duration: 3000,
+        });
+      } else {
+        toast.error(result.message || "Signup failed, please try again.");
       }
-    );
-    setIsOpen(false);
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Error during signup:", error);
+      toast.error("An unexpected error occurred. Please try again later.");
+    }
   };
 
   return (
