@@ -45,6 +45,9 @@ export async function POST(request: Request) {
     }
 
     const data = await res.json();
+    console.log("🚀 ----------------------🚀");
+    console.log("🚀 ~ POST ~ data:", data);
+    console.log("🚀 ----------------------🚀");
 
     // Return tokens to the client
     return new Response(

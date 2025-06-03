@@ -6,30 +6,34 @@ export async function POST(request: Request) {
   console.log("🚀 ~ POST ~ body:", body);
   console.log("🚀 ----------------------🚀");
   const { firstName, lastName, email, zipCode } = body;
-  const url = process.env.AUTOCONNECT_URL;
+  const url = process.env.BACKEND_DEV;
+
   try {
     const createUserUrl = `${url}/api/v1/user/create`;
 
-    const createUserResponse = await axios.post(createUserUrl, null, {
-      params: {
-        email,
-        first_name: firstName,
-        last_name: lastName,
-        zip_code: zipCode,
-      },
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-      },
-    });
+    console.log("🚀 ----------------------------------------🚀");
+    console.log("🚀 ~ POST ~ createUserUrl:", createUserUrl);
+    console.log("🚀 ----------------------------------------🚀");
+    // const createUserResponse = await axios.post(createUserUrl, null, {
+    //   params: {
+    //     email,
+    //     first_name: firstName,
+    //     last_name: lastName,
+    //     zip_code: zipCode,
+    //   },
+    //   headers: {
+    //     Accept: "*/*",
+    //     "Content-Type": "application/json",
+    //   },
+    // });
 
-    const apiData = createUserResponse.data; // Assuming the response contains user data or ID
-    console.log("Create User Response (API Data):", apiData);
+    // const apiData = createUserResponse.data; // Assuming the response contains user data or ID
+    // console.log("Create User Response (API Data):", apiData);
 
     return new Response(
       JSON.stringify({
         message: "User created successfully",
-        data: apiData,
+        data: "User Created",
       }),
       {
         status: 200,
