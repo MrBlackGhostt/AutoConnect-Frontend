@@ -31,7 +31,7 @@ export function AuthDialog({
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState<
     "auth" | "smartcar" | "complete"
-  >("smartcar");
+  >("auth");
   const [ownerId, setOwnerId] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
 
@@ -120,7 +120,7 @@ export function AuthDialog({
   const handleSmartcarConnection = async () => {
     setIsConnecting(true);
     try {
-      const response = await fetch("/api/exchange-token", {
+      const response = await fetch("/api/exchange", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

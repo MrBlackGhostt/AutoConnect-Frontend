@@ -1,5 +1,7 @@
 // For Next.js API routes
+import { decrypt } from "@/lib/session";
 import axios from "axios";
+import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   try {
@@ -22,6 +24,12 @@ export async function POST(request: Request) {
       BACKEND_DEV,
     } = process.env;
 
+    const cookie = (await cookies()).get("ownerId")?.value;
+    const session = await decrypt(cookie);
+
+    if (!session?.ownerId) {
+      return Response.redirect(new URL("/"));
+    }
     // Step 2: Get the exchange token from Smartcar
     const tokenResponse = await fetch("https://auth.smartcar.com/oauth/token", {
       method: "POST",
@@ -56,9 +64,10 @@ export async function POST(request: Request) {
 
     // TODO owenr ID comes foe the signup
     // Step 3: Use the ownerId and token data to call the third API (Smartcar Add Vehicle)
-    const ownerId = tokenData.owner_id; // Assuming the response contains an owner ID
+    const ownerId = session?.ownerId; // Assuming the response contains an owner ID
+
     const addVehicleAuthUrl = `${DATA_COLLECTOR_DEV_URL}/smartcar/add-vehicle-auth?ownerId=${encodeURIComponent(
-      ownerId
+      String(ownerId)
     )}`;
     console.log("Calling Third API:", addVehicleAuthUrl);
 
@@ -83,7 +92,7 @@ export async function POST(request: Request) {
 
     // Step 4: Use the ownerId to send the welcome email
     const sendWelcomeEmailUrl = `${BACKEND_DEV}/api/v1/user/welcome?id=${encodeURIComponent(
-      ownerId
+      String(ownerId)
     )}`;
     console.log("Calling Fourth API:", sendWelcomeEmailUrl);
 

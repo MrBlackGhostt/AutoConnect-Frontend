@@ -1,3 +1,4 @@
+import { createSession } from "@/lib/session";
 import axios from "axios";
 
 export async function POST(request: Request) {
@@ -11,29 +12,28 @@ export async function POST(request: Request) {
   try {
     const createUserUrl = `${url}/api/v1/user/create`;
 
-    console.log("🚀 ----------------------------------------🚀");
-    console.log("🚀 ~ POST ~ createUserUrl:", createUserUrl);
-    console.log("🚀 ----------------------------------------🚀");
-    // const createUserResponse = await axios.post(createUserUrl, null, {
-    //   params: {
-    //     email,
-    //     first_name: firstName,
-    //     last_name: lastName,
-    //     zip_code: zipCode,
-    //   },
-    //   headers: {
-    //     Accept: "*/*",
-    //     "Content-Type": "application/json",
-    //   },
-    // });
+    const createUserResponse = await axios.post(createUserUrl, null, {
+      params: {
+        email,
+        first_name: firstName,
+        last_name: lastName,
+        zip_code: zipCode,
+      },
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+      },
+    });
 
-    // const apiData = createUserResponse.data; // Assuming the response contains user data or ID
-    // console.log("Create User Response (API Data):", apiData);
+    const apiData = createUserResponse.data; // Assuming the response contains user data or ID
+    console.log("Create User Response (API Data):", apiData);
+    // const apiData = "123456";
+    await createSession(apiData);
 
     return new Response(
       JSON.stringify({
         message: "User created successfully",
-        data: "User Created",
+        data: apiData,
       }),
       {
         status: 200,
