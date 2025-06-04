@@ -56,7 +56,6 @@ export function Header() {
                   src={logoUrl}
                   alt="logo"
                   fill
-                  placeholder="blur"
                   loading="lazy"
                 />
               </div>
